@@ -11,11 +11,10 @@ import {
 } from 'containers/Forum/portfolio.style';
 
 import Navbar from 'containers/Forum/Navbar';
-import InProgressPollsSection from 'containers/Forum/InProgressPolls';
-import ForumlistSection from 'containers/Forum/Forumlist';
+import CreatePollSection from 'containers/Forum/WriteForum';
 import Footer from 'containers/Forum/Footer';
 
-const Forum = () => {
+const CreatePoll = () => {
   return (
     <ThemeProvider theme={portfolioTheme}>
       <Fragment>
@@ -39,12 +38,11 @@ const Forum = () => {
               <Navbar />
             </DrawerProvider>
           </Sticky>
-          <InProgressPollsSection />
-          <ForumlistSection />
+          <CreatePollSection />
           <Footer />
         </ContentWrapper>
       </Fragment>
     </ThemeProvider>
   );
 };
-export default Forum;
+export default CreatePoll;

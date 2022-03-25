@@ -39,6 +39,7 @@ import Reviewer3 from "../../assets/image/portfolio/client-avatar-3.jpg";
 import Heart from "../../assets/image/portfolio/heart-red.png";
 export const HEART = Heart;
 export const IMG = Reviewer1;
+export const SKILLICON = SkillIcon1;
 
 export const SOCIAL_PROFILES = [
   {
