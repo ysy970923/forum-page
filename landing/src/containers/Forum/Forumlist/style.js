@@ -20,7 +20,7 @@ export const ClientsImage = styled.div`
 
 export const TestimonialItem = styled.div`
   position: relative;
-  background-color: #fff;
+  background-color: rgb(244, 244, 245);
   border-radius: 10px;
   padding: 30px;
   box-shadow: 0.521px 2.954px 20px 0px rgba(101, 106, 160, 0.1);

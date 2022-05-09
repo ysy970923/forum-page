@@ -23,7 +23,7 @@ const ForumlistSection = ({
     <Box {...sectionWrapper} as="section">
       <Container noGutter width="1200px">
         <Box {...secTitleWrapper}>
-          <Heading {...secTitle} content="Forum" />
+          <Heading {...secTitle} content="Proposals" />
           <Text {...secDescription} content="Any Thoughts are Welcome." />
         </Box>
         <TestimonialItem>

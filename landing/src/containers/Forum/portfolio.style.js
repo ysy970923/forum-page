@@ -122,6 +122,7 @@ export const GlobalStyle = createGlobalStyle`
 
 export const ContentWrapper = styled.div`
   overflow: hidden;
+  background-color: rgb(239, 239, 239);
   .sticky-nav-active {
     .portfolio_navbar {
       background: #fff;

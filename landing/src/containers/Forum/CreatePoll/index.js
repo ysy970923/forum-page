@@ -19,9 +19,11 @@ import {
   useConnectedWallet,
   UserDenied,
 } from "@terra-money/wallet-provider";
-
-const createHookMsg = (msg) =>
-  Buffer.from(JSON.stringify(msg)).toString("base64");
+import {
+  GOV_CONTRACT_ADDRESS,
+  NFT_CONTRACT_ADDRESS,
+  executeDAO,
+} from "common/data/Forum";
 
 const CreatePollSection = ({
   sectionWrapper,
@@ -31,49 +33,19 @@ const CreatePollSection = ({
 }) => {
   const [title, setTitle] = React.useState("");
   const [description, setDescription] = React.useState("");
-  const [deposit, setDeposit] = React.useState("0");
-
-  const executeMsg = {
-    send: {
-      contract: "terra1sae4s4zlkc2r7d76dtv40ph3vz7p0zu9ysr9n6",
-      amount: (deposit * 1000000).toString(),
-      msg: {
-        create_poll: {
-          title: title,
-          description: description,
-        },
-      },
-    },
-  };
+  const [link, setLink] = React.useState("");
 
   const connectedWallet = useConnectedWallet();
 
-  async function proceed(msg) {
-    if (!connectedWallet) {
-      return;
-    }
-
-    if (connectedWallet.network.chainID.startsWith("columbus")) {
-      alert(`Please only execute this example on Testnet`);
-      return;
-    }
-
-    const terra = new createLCDClient({ network: connectedWallet.network });
-    msg.send.msg = createHookMsg(msg.send.msg);
-
-    const execute = new MsgExecuteContract(
-      connectedWallet.terraAddress, // sender
-      "terra1lzfrsy38l34uzrlma3fm3hsktv848pcgdnlcj7", // contract account address
-      { ...msg } // handle msg
-    );
-
-    const executeTx = await connectedWallet.sign({
-      msgs: [execute],
-    });
-
-    terra.tx.broadcastSync(executeTx.result).then((result) => {
-      console.log("proceeded");
-    });
+  async function create_poll() {
+    const msg = {
+      create_poll: {
+        title: title,
+        description: description,
+        link: link.length < 12 ? null : link,
+      },
+    };
+    return executeDAO(connectedWallet, msg);
   }
   return (
     <Box {...sectionWrapper} as="section">
@@ -104,14 +76,14 @@ const CreatePollSection = ({
             />
           </div>
           <div {...descriptionBox}>
-            <p>Deposit</p>
+            <p>Link</p>
           </div>
           <div {...inputFormBox}>
             <input
               {...inputForm}
-              value={deposit}
-              onChange={(e) => setDeposit(e.target.value)}
-              placeholder="Deposit"
+              value={link}
+              onChange={(e) => setLink(e.target.value)}
+              placeholder="Link"
             />
             <div>
               <p>ANC</p>
@@ -125,7 +97,7 @@ const CreatePollSection = ({
               width: "100%",
               marginTop: "45px",
             }}
-            onClick={() => proceed(executeMsg)}
+            onClick={create_poll}
           />
         </TestimonialItem>
       </Container>

@@ -1,20 +1,18 @@
-import React, { Fragment } from 'react';
-import Head from 'next/head';
-import { ThemeProvider } from 'styled-components';
-import Sticky from 'react-stickynode';
-import { DrawerProvider } from 'common/contexts/DrawerContext';
-import { portfolioTheme } from 'common/theme/portfolio';
-import ResetCSS from 'common/assets/css/style';
-import {
-  GlobalStyle,
-  ContentWrapper,
-} from 'containers/Forum/portfolio.style';
+import React, { Fragment } from "react";
+import Head from "next/head";
+import { ThemeProvider } from "styled-components";
+import Sticky from "react-stickynode";
+import { DrawerProvider } from "common/contexts/DrawerContext";
+import { portfolioTheme } from "common/theme/portfolio";
+import ResetCSS from "common/assets/css/style";
+import { GlobalStyle, ContentWrapper } from "containers/Forum/portfolio.style";
 
-import Navbar from 'containers/Forum/Navbar';
-import CreatePollSection from 'containers/Forum/WriteForum';
-import Footer from 'containers/Forum/Footer';
+import Navbar from "containers/Forum/Navbar";
+import MyPageSection from "containers/Forum/MyPage";
+import ForumlistSection from "containers/Forum/Forumlist";
+import Footer from "containers/Forum/Footer";
 
-const CreatePoll = () => {
+const MyPage = () => {
   return (
     <ThemeProvider theme={portfolioTheme}>
       <Fragment>
@@ -38,11 +36,11 @@ const CreatePoll = () => {
               <Navbar />
             </DrawerProvider>
           </Sticky>
-          <CreatePollSection />
+          <MyPageSection />
           <Footer />
         </ContentWrapper>
       </Fragment>
     </ThemeProvider>
   );
 };
-export default CreatePoll;
+export default MyPage;

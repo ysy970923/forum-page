@@ -10,43 +10,31 @@ import HamburgMenu from "common/components/HamburgMenu";
 import Container from "common/components/UI/Container";
 import { DrawerContext } from "common/contexts/DrawerContext";
 
-import LogoImage from "common/assets/image/portfolio/logo-alt.png";
-import LogoImageAlt from "common/assets/image/portfolio/logo-alt.png";
 import {
   useWallet,
   WalletStatus,
   useConnectedWallet,
   createLCDClient,
 } from "@terra-money/wallet-provider";
-
-const GOV_CONTRACT_ADDRESS = "terra1sae4s4zlkc2r7d76dtv40ph3vz7p0zu9ysr9n6";
+import {
+  GOV_CONTRACT_ADDRESS,
+  NFT_CONTRACT_ADDRESS,
+  getID,
+  getBalance,
+} from "common/data/Forum";
 
 const Navbar = ({ navbarStyle, logoStyle, button, row, menuWrapper }) => {
   const { state, dispatch } = useContext(DrawerContext);
   const wallet = useWallet();
   const [balance, setBalance] = React.useState("-");
   const connectedWallet = useConnectedWallet();
-  if (connectedWallet) {
-    const terra = new createLCDClient({ network: connectedWallet.network });
-    const queryMsg1 = {
-      staker: {
-        address: connectedWallet.terraAddress.toString(),
-      },
-    };
-    terra.wasm
-      .contractQuery(GOV_CONTRACT_ADDRESS, { ...queryMsg1 })
-      .then((result) => {
-        setBalance((result.balance / 1000000).toString());
-      });
-    const queryMsg2 = {
-      state: {},
-    };
-    terra.wasm
-      .contractQuery(GOV_CONTRACT_ADDRESS, { ...queryMsg2 })
-      .then((result) => {
-        console.log(result);
-      });
-  }
+  getID(connectedWallet).then((id) => {
+    getBalance(connectedWallet, id).then((balance) => {
+      if (!balance) return;
+      console.log(balance);
+      setBalance((balance.share / 1000).toString());
+    });
+  });
 
   // Toggle drawer
   const toggleHandler = () => {
@@ -58,29 +46,18 @@ const Navbar = ({ navbarStyle, logoStyle, button, row, menuWrapper }) => {
     <NavbarWrapper {...navbarStyle} className="portfolio_navbar">
       <Container noGutter mobileGutter width="1200px">
         <Box {...row}>
-          <Logo
-            href="/"
-            logoSrc={LogoImage}
-            title="Portfolio"
-            logoStyle={logoStyle}
-            className="main-logo"
-          />
-          <Logo
-            href="/"
-            logoSrc={LogoImageAlt}
-            title="Portfolio"
-            logoStyle={logoStyle}
-            className="logo-alt"
-          />
+          <a class="color-font" href="/">
+            <h4 style={{ fontWeight: "700", marginLeft: "8px" }}>LunaDAO</h4>
+          </a>
           <Box {...menuWrapper}>
-            <Link href="/stake_tokens">
-              <Button {...button} title={`Staked: ${balance}`} />
+            <Link href="/my_page">
+              <Button {...button} title={`Share: ${balance}`} />
             </Link>
             <Link href="/create_poll">
               <Button {...button} title="Create Poll" />
             </Link>
-            <Link href="/write_forum">
-              <Button {...button} title="Write Forum" />
+            <Link href="/members">
+              <Button {...button} title="Members" />
             </Link>
             {wallet.status === WalletStatus.WALLET_NOT_CONNECTED && (
               <Button
@@ -92,7 +69,7 @@ const Navbar = ({ navbarStyle, logoStyle, button, row, menuWrapper }) => {
             {wallet.status === WalletStatus.WALLET_CONNECTED && (
               <Button
                 {...button}
-                title={wallet.wallets[0].terraAddress.substring(0, 7) + '...'}
+                title={wallet.wallets[0].terraAddress.substring(0, 7) + "..."}
                 onClick={() => wallet.disconnect()}
               />
             )}

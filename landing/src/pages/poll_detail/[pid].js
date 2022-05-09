@@ -8,11 +8,13 @@ import ResetCSS from "common/assets/css/style";
 import { GlobalStyle, ContentWrapper } from "containers/Forum/portfolio.style";
 
 import Navbar from "containers/Forum/Navbar";
-import StakeTokensSection from "containers/Forum/StakeTokens";
+import ContentSection from "containers/Forum/PollInfo";
 import ForumlistSection from "containers/Forum/Forumlist";
+import ReplySection from "containers/Forum/Reply";
 import Footer from "containers/Forum/Footer";
+import InProgressPollsSection from "containers/Forum/InProgressPolls";
 
-const StakeTokens = () => {
+const ForumDetail = () => {
   return (
     <ThemeProvider theme={portfolioTheme}>
       <Fragment>
@@ -36,11 +38,37 @@ const StakeTokens = () => {
               <Navbar />
             </DrawerProvider>
           </Sticky>
-          <StakeTokensSection />
+          <ContentSection />
+          <InProgressPollsSection />
           <Footer />
         </ContentWrapper>
       </Fragment>
     </ThemeProvider>
   );
 };
-export default StakeTokens;
+export default ForumDetail;
+
+// export async function getStaticProps({ params }) {
+//   const pid = params.pid;
+//   console.log(pid);
+//   return {
+//     props: {
+//       pid: pid,
+//     },
+//   };
+// }
+
+// export async function getStaticPaths() {
+//   const pids = ["1", "2", "3"];
+//   console.log(pids);
+//   return {
+//     paths: pids.map((pid) => {
+//       return {
+//         params: {
+//           pid,
+//         },
+//       };
+//     }),
+//     fallback: false,
+//   };
+// }
